@@ -1,7 +1,7 @@
 import React, { useEffect, lazy } from "react";
 import { useDispatch } from "react-redux";
 import { getCars } from "../../redux/cars/carsOperations.js";
-import { Routes, Route, BrowserRouter } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Layout from "../Layout/Layout.jsx";
 import { Container } from "./App.stiled.jsx"; 
 
@@ -19,7 +19,7 @@ const App = () => {
 
   return (
     <Container>
-      <BrowserRouter>
+   
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
@@ -28,7 +28,7 @@ const App = () => {
             <Route path="*" element={<Home />} />
           </Route>
         </Routes>
-      </BrowserRouter>
+     
     </Container>
   ); 
 }; 

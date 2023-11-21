@@ -18,8 +18,8 @@ import {
   Text,
   SecondLineText,
   Button,
-} from "./CarsListItem.styled"; 
-const defaultImg = "../../img/defaultCarsImg.jpg"; 
+} from "./CarsListItem.styled";
+const defaultImg = "../../img/defaultCarsImg.jpg";
 
 export const CarsListItem = ({
   id,
@@ -27,14 +27,14 @@ export const CarsListItem = ({
   make,
   model,
   type,
-  img,  
+  img,
   accessories,
   functionalities,
   rentalPrice,
   rentalCompany,
-  address,  
+  address,
 }) => {
-  const dispatch = useDispatch(); 
+  const dispatch = useDispatch();
   const isFavorites = useSelector(selectIsFavorites);
 
   const favorites = isFavorites.toString().includes(id.toString());
@@ -46,12 +46,11 @@ export const CarsListItem = ({
     dispatch(changeFavorites);
   };
 
-  const togglePopUpWindow = (id) => {   
+  const togglePopUpWindow = (id) => {
     dispatch(setPopUpWindow(id));
+    document.body.style.overflow = "hidden";
   };
 
-
-  
   const addressArray = address.split(",");
   const city = addressArray[1].trim();
   const country = addressArray[2].trim();

@@ -20,7 +20,7 @@ const Layout = () => {
     <ContainerLayout>
       <Header>
         <Nav>
-          <NavLink to="" className={"link"}>
+          <NavLink to="/" className={"link"}>
             <LogoBox>
               <Logotype />              
               <Logotext>CarRental</Logotext>             

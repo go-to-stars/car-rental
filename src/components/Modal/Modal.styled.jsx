@@ -7,8 +7,7 @@ export const BackDrop = styled.div`
   position: fixed;
   top: 0;
   right: 0;
-  background-color: rgba(18, 20, 23, 0.5);
-  pointer-events: none;
+  background-color: rgba(18, 20, 23, 0.5);  
   opacity: 1;
   overflow: hidden !important;
 `;

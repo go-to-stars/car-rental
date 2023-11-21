@@ -16,32 +16,28 @@ export const LogoBox = styled.div`
   &:focus {
     color: #0b44cd;
     fill: #0b44cd;
-  } 
+  }
 `;
 
 export const Logotype = styled(Logo)`
   width: 100px;
   height: 50px;
-
- 
 `;
 
-export const Logotext = styled.p`  
+export const Logotext = styled.p`
   font-weight: 700;
   font-size: 30px;
   text-decoration: none;
 
   color: inherit;
-  visibility: visible; 
+  visibility: visible;
 `;
 
 export const Nav = styled.nav`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 20vw;
-
-  padding: 5px 0px; 
+  gap: 8vw;
 `;
 
 export const NavList = styled.ul`
@@ -63,7 +59,7 @@ export const NavListItem = styled.li`
   &:hover,
   &:focus {
     color: #0b44cd;
-  } 
+  }
 `;
 
 export const Header = styled.header`
@@ -72,13 +68,10 @@ export const Header = styled.header`
   justify-content: space-between;
   padding: 0 15px;
   background-color: inherit;
-
- 
 `;
 
 export const Main = styled.main`
   min-height: calc(90vh - 70px - 48px);
-  
 `;
 
 export const Footer = styled.footer`

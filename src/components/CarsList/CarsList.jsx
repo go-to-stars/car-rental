@@ -67,7 +67,12 @@ export const CarsList = (isFavoritePage) => {
   const [carMileageTo, setCarMileageTo] = useState(100000);
   const isFavorites = useSelector(selectIsFavorites);
 
-  const ollCars = useSelector(selectCars);
+   const ollselectedCars = useSelector(selectCars);
+   const ollCars = ollselectedCars.filter((item) =>
+     isFavoritePage.isFavoritePage
+       ? isFavorites.toString().includes(item.id.toString())
+       : ollselectedCars
+   );
 
   const allBrands =
     defaultBrand.length !== 0 ? ["All brands", ...defaultBrand] : [];
