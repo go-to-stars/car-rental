@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 import { selectCars } from "../../redux/cars/carsSelectors";
+import { changePage } from "../../redux/cars/carsSlice";
 import { CarsListItem } from "../CarsListItem/CarsListItem";
-import { selectIsFavorites } from "../../redux/cars/carsSelectors";
+import { selectIsFavorites, selectPage } from "../../redux/cars/carsSelectors";
 import {
   SearshBox,
+  Label,
   SelectBrand,
   SelectPrice,
   SelectMileageFrom,
@@ -14,9 +16,9 @@ import {
   List,
   ListItem,
   ButtonMore,
-} from "./CarsList.styled"; 
+} from "./CarsList.styled";
 const defaultImg = "../../img/defaultCarsImg.jpg";
-const defaultState = 12;
+
 const defaultBrand = [
   "Buick",
   "Volvo",
@@ -58,165 +60,195 @@ const defaultPrice = [
   "150",
 ];
 
-export const CarsList = (isFavoritePage) => {  
-  const [carState, setCarState] = useState(defaultState);
+export const CarsList = (isFavoritePage) => {
+  const dispatch = useDispatch(); 
   const [carsArrayState, setCarsArrayState] = useState([]);
-  const [carBrands, setCarBrands] = useState();
-  const [carPrice, setCarPrice] = useState(0);
+  const [carBrands, setCarBrands] = useState("All brands");
+  const [carPrice, setCarPrice] = useState("All price");
+  const [menuBrandsIsOpen, setMenuBrandsIsOpen] = useState(false);
+  const [menuPriceIsOpen, setMenuPriceIsOpen] = useState(false);
   const [carMileageFrom, setCarMileageFrom] = useState(0);
   const [carMileageTo, setCarMileageTo] = useState(100000);
   const isFavorites = useSelector(selectIsFavorites);
+  const ollselectedCars = useSelector(selectCars);
+  const page = useSelector(selectPage);
 
-   const ollselectedCars = useSelector(selectCars);
-   const ollCars = ollselectedCars.filter((item) =>
-     isFavoritePage.isFavoritePage
-       ? isFavorites.toString().includes(item.id.toString())
-       : ollselectedCars
-   );
+  if (ollselectedCars) {
+    const ollCars = ollselectedCars.filter((item) =>
+      isFavoritePage.isFavoritePage
+        ? isFavorites.toString().includes(item.id.toString())
+        : ollselectedCars
+    );
 
-  const allBrands =
-    defaultBrand.length !== 0 ? ["All brands", ...defaultBrand] : [];
-  const allPrice =
-    defaultPrice.length !== 0 ? ["All price", ...defaultPrice] : [];
+    const loadMoreBtnVisible = ollselectedCars.length === page * 12;    
 
-  const handleChangeBrands = (e) => {
-    setCarBrands(e.value);   
-  };
+    const selectedCars = carsArrayState.length > 0 ? carsArrayState : ollCars;    
 
-  const handleChangePrice = (e) => {
-    setCarPrice(e.value);    
-  };
+    const allBrands =
+      defaultBrand.length !== 0 ? ["All brands", ...defaultBrand] : [];
 
-  const handleChangeMileageFrom = (e) => {   
-    setCarMileageFrom(e.target.value);    
-  };
+    const allPrice =
+      defaultPrice.length !== 0 ? ["All price", ...defaultPrice] : [];
 
-  const handleChangeMileageTo = (e) => {
-    setCarMileageTo(e.target.value);    
-  };
+    const handleChangeBrands = (e) => {
+      setCarBrands(e.value);
+    };
 
-  const handleSearchCars = () => {
-    
-    const result = ollCars.filter((item) => {      
-      const searchCar = isFavoritePage.isFavoritePage
-        ? item.make === carBrands &&
-          Number(item.rentalPrice.slice(1)) <= Number(carPrice) &&
-          Number(item.mileage) >= Number(carMileageFrom) &&
-          Number(item.mileage) <= Number(carMileageTo) &&
-          isFavorites.toString().includes(item.id.toString())
-        : item.make === carBrands &&
-          Number(item.rentalPrice.slice(1)) <= Number(carPrice) &&
-          Number(item.mileage) >= Number(carMileageFrom) &&
-          Number(item.mileage) <= Number(carMileageTo);
-      return searchCar;
-    });
-    
-    return setCarsArrayState(result);
-  };
+    const handleChangePrice = (e) => {
+      setCarPrice(e.value);
+    };
 
-  const maxArraylenght = ollCars.length;
-  const selectedCars =
-    carsArrayState.length > 0
-      ? carsArrayState.slice(0, carState)
-      : ollCars.slice(0, carState);
-  const differenceLenght = maxArraylenght - carState;
+    const handleChangeMileageFrom = (e) => {
+      setCarMileageFrom(e.target.value);
+    };
 
-  const loadMoreCars = () => {
-    let lenghtArr = 0;
-    differenceLenght > 12
-      ? (lenghtArr = carState + 12)
-      : (lenghtArr = carState + differenceLenght);
+    const handleChangeMileageTo = (e) => {
+      setCarMileageTo(e.target.value);
+    };
 
-    setCarState(lenghtArr);
-  };
+    const handleSearchCars = () => {
+      const resultFilteredBrand = ollCars.filter((item) => {
+        return item.make === carBrands || carBrands === "All brands";
+      });
+      
+      const resultFilteredPrice = resultFilteredBrand.filter((item) => {
+        return (
+          Number(item.rentalPrice.slice(1)) <= Number(carPrice) ||
+          carPrice === "All price"
+        );
+      });
+      
+      const resultFilteredMileageFrom = resultFilteredPrice.filter((item) => {
+        return Number(item.mileage) >= Number(carMileageFrom);
+      });  
+      
+      const resultFilteredMileageTo = resultFilteredMileageFrom.filter(
+        (item) => {
+          return Number(item.mileage) <= Number(carMileageTo);
+        }
+      );     
+     
+      return setCarsArrayState(resultFilteredMileageTo);
+    };
 
-  useEffect(() => {
-    // setState((state.cars = selectedCars));
-  }, [carState, carBrands, carPrice, carMileageFrom, carMileageTo]);
+    const loadMoreCars = () => {      
+      dispatch(changePage(page + 1));
+    };
 
-  return (
-    <>
-      <SearshBox>
-        <SelectBrand
-          name="Car brand"
-          label="Car brand"
-          placeholder="Enter the text"
-          className="react-select-container"
-          classNamePrefix="react-select"
-          defaultValue={carBrands}
-          onChange={handleChangeBrands}
-          options={allBrands.map((item) => ({
-            label: item,
-            value: item,
-          }))}
-        />
-        <SelectPrice
-          name="Price/ 1 hour"
-          label="Price/ 1 hour"
-          placeholder="To $"
-          className="react-select-container"
-          classNamePrefix="react-select"
-          defaultValue={150}
-          onChange={handleChangePrice}
-          options={allPrice.map((item) => ({
-            label: item,
-            value: item,
-          }))}
-        />
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <SelectMileageFrom
-            name="From"
-            label="From"
-            placeholder="From"           
-            value={carMileageFrom}
-            onChange={handleChangeMileageFrom}
-            style={{ backgroundColor: "#f7f7fb" }}            
-          />
-          <SelectMileageTo
-            name="To"
-            label="To"
-            placeholder="To"            
-            value={carMileageTo}
-            onChange={handleChangeMileageTo}           
-          />
-        </div>
-        <Button type="button" onClick={() => handleSearchCars()}>
-          Search
-        </Button>
-      </SearshBox>
-      {selectedCars.length > 0 && (
-        <List>
-          {selectedCars.map((item) => (
-            <ListItem key={item.id}>
-              <CarsListItem
-                id={item.id}
-                year={item.year}
-                make={item.make}
-                model={item.model}
-                type={item.type}
-                img={item.img ? item.img : defaultImg}
-                description={item.description}
-                fuelConsumption={item.fuelConsumption}
-                engineSize={item.engineSize}
-                accessories={item.accessories}
-                functionalities={item.functionalities}
-                rentalPrice={item.rentalPrice}
-                rentalCompany={item.rentalCompany}
-                address={item.address}
-                rentalConditions={item.rentalConditions}
-                mileage={item.mileage}
+    const brandMenuIsOpen = () => {
+      setMenuBrandsIsOpen(!menuBrandsIsOpen);
+    };
+
+    const priceMenuIsOpen = () => {
+      setMenuPriceIsOpen(!menuPriceIsOpen);
+    };
+
+    return (
+      <>
+        <SearshBox>
+          <Label style={{ width: "224px" }}>
+            Car brand
+            <SelectBrand
+              name="Car brand"
+              label="Car brand"
+              placeholder="Enter the text"
+              className="react-select-container"
+              classNamePrefix="react-select"
+              defaultValue={"All brands"}
+              onChange={handleChangeBrands}
+              options={allBrands.map((item) => ({
+                label: item,
+                value: item,
+              }))}
+              onMenuOpen={brandMenuIsOpen}
+              onMenuClose={brandMenuIsOpen}
+              changeMenu={menuBrandsIsOpen}
+            />
+          </Label>
+          <Label style={{ width: "125px" }}>
+            Price/ 1 hour
+            <SelectPrice
+              name="Price/ 1 hour"
+              label="Price/ 1 hour"
+              placeholder="To $"
+              className="react-select-container"
+              classNamePrefix="react-select"
+              defaultValue={150}
+              onChange={handleChangePrice}
+              onMenuOpen={priceMenuIsOpen}
+              onMenuClose={priceMenuIsOpen}
+              changeMenu={menuPriceIsOpen}
+              options={allPrice.map((item) => ({
+                label: item,
+                value: item,
+              }))}
+            />
+          </Label>
+          <Label htmlFor="From">
+            Сar mileage / km
+            <div
+              style={{
+                position: "relative",
+                marginTop: "8px",
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <SelectMileageFrom
+                name="From"
+                label="From"
+                placeholder="From"
+                // value={carMileageFrom}
+                onChange={handleChangeMileageFrom}
+                style={{ backgroundColor: "#f7f7fb" }}
               />
-            </ListItem>
-          ))}
-        </List>
-      )}
-      {selectedCars.length > 0 && differenceLenght > 0 && (
-        <ButtonMore type="button" onClick={() => loadMoreCars()}>
-          Load more
-        </ButtonMore>
-      )}
-    </>
-  );
+              <SelectMileageTo
+                name="To"
+                label="To"
+                placeholder="To"
+                // value={carMileageTo}
+                onChange={handleChangeMileageTo}
+              />
+            </div>
+          </Label>
+          <Button type="button" onClick={() => handleSearchCars()}>
+            Search
+          </Button>
+        </SearshBox>
+        {selectedCars.length > 0 && (
+          <List>
+            {selectedCars.map((item) => (
+              <ListItem key={item.id}>
+                <CarsListItem
+                  id={item.id}
+                  year={item.year}
+                  make={item.make}
+                  model={item.model}
+                  type={item.type}
+                  img={item.img ? item.img : defaultImg}
+                  description={item.description}
+                  fuelConsumption={item.fuelConsumption}
+                  engineSize={item.engineSize}
+                  accessories={item.accessories}
+                  functionalities={item.functionalities}
+                  rentalPrice={item.rentalPrice}
+                  rentalCompany={item.rentalCompany}
+                  address={item.address}
+                  rentalConditions={item.rentalConditions}
+                  mileage={item.mileage}
+                />
+              </ListItem>
+            ))}
+          </List>
+        )}
+        {selectedCars.length > 0 && loadMoreBtnVisible && (
+          <ButtonMore type="button" onClick={() => loadMoreCars()}>
+            Load more
+          </ButtonMore>
+        )}
+      </>
+    );
+  }
 };
 
 CarsList.propTypes = {

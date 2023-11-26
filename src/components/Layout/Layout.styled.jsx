@@ -25,6 +25,8 @@ export const Logotype = styled(Logo)`
 `;
 
 export const Logotext = styled.p`
+  margin: 0;
+
   font-weight: 700;
   font-size: 30px;
   text-decoration: none;
@@ -66,17 +68,18 @@ export const Header = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  height: 65px;
   padding: 0 15px;
   background-color: inherit;
 `;
 
 export const Main = styled.main`
-  min-height: calc(90vh - 70px - 48px);
+  min-height: calc(100vh - 65px - 62px - 42px);
 `;
 
 export const Footer = styled.footer`
   padding: 20px 0;
-
+  height: 22px;
   font-size: 20px;
   text-align: center;
   color: inherit;

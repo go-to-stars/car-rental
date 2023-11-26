@@ -1,31 +1,29 @@
 import styled from "@emotion/styled";
-// import { ReactComponent as GreetingsPicture } from "../../img/greetings.svg";
+import { ReactComponent as StartGreetingsPicture } from "../../img/start.svg";
+import { ReactComponent as GreetingsPicture } from "../../img/greetingsPicture.svg";
 
-// export const Img = styled(GreetingsPicture)`
-//   width: 200px;
-//   height: 200px;
+export const StartImg = styled(StartGreetingsPicture)`
+  width: 100px;
+  height: 50px;
 
-//   fill: currentColor;
+  fill: currentColor;
+`;
 
-//   @media (max-width: 1023.98px) {
-//     width: 160px;
-//     height: 160px;
-//   }
+export const Img = styled(GreetingsPicture)`
+  width: 200px;
+  height: 100px;
 
-//   @media (max-width: 767.98px) {
-//     width: 100px;
-//     height: 100px;
-//   }
-// `;
+  fill: currentColor;
+`;
 
 export const ContainerHome = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  max-width: 70vw;
-  margin: 10vh auto;
-  padding: 25px;
+  max-width: 80vw;
+  margin: 0 auto;
+  padding: 150px 25px 0px 25px;
 
   text-align: center;
   background-color: inherit;

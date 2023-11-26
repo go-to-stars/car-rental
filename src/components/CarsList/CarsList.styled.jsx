@@ -1,6 +1,5 @@
 import Select from "react-select";
 import styled from "@emotion/styled";
-// import Input from "react-select/dist/declarations/src/components/Input";
 
 export const SearshBox = styled.div`
   display: flex;
@@ -8,11 +7,19 @@ export const SearshBox = styled.div`
   justify-content: center;
   align-items: center;
   padding-left: 0;
-  margin: 91px auto 0;
-  margin-left: 50px;
+  margin: 85px auto 0;
+  // margin-left: 50px;
   gap: 18px;
 
   list-style: none;
+`;
+
+export const Label = styled.label`
+  position: relative;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: calc(18 / 14);
+  color: #8a8a89;
 `;
 
 export const SelectBrand = styled(Select)`
@@ -20,6 +27,7 @@ export const SelectBrand = styled(Select)`
     display: flex;
     justify-content: center;
     align-items: center;
+
     width: 224px;
     height: 48px;
   }
@@ -28,6 +36,7 @@ export const SelectBrand = styled(Select)`
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 8px;
     width: 224px;
     height: 48px;
     padding: 14px 50px 14px 18px;
@@ -36,6 +45,12 @@ export const SelectBrand = styled(Select)`
     background-color: #f7f7fb;
     outline: none;
     box-shadow: none;
+
+    font-size: 18px;
+    font-weight: 500;
+    line-height: calc(20 / 18);
+
+    color: #121417;
   }
 
   .react-select__placeholder {
@@ -58,6 +73,9 @@ export const SelectBrand = styled(Select)`
 
     color: #121417;
     cursor: pointer;
+    // transform: state.selectProps.menuIsOpen && "rotate(180deg)";
+    transform: ${({ changeMenu }) =>
+      changeMenu ? "rotate(180deg)" : "rotate(0deg)"};
   }
 
   .react-select__input-container {
@@ -79,7 +97,7 @@ export const SelectBrand = styled(Select)`
 
     font-size: 16px;
     font-weight: 500;
-    line-height: (20/16);
+    line-height: calc (20/16);
     color: rgba(18, 20, 23, 0.2);
 
     border-radius: 14px;
@@ -93,7 +111,7 @@ export const SelectBrand = styled(Select)`
     &::-webkit-scrollbar {
       width: 8px;
       height: 130px;
-      border-radius: 10px;      
+      border-radius: 10px;
       background-color: #fff;
     }
     &::-webkit-scrollbar-thumb {
@@ -139,6 +157,7 @@ export const SelectPrice = styled(Select)`
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 8px;
     width: 125px;
     height: 48px;
     padding: 14px 45px 14px 18px;
@@ -147,6 +166,11 @@ export const SelectPrice = styled(Select)`
     background-color: #f7f7fb;
     outline: none;
     box-shadow: none;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: calc(20 / 18);
+
+    color: #121417;
   }
 
   .react-select__placeholder {
@@ -169,6 +193,8 @@ export const SelectPrice = styled(Select)`
 
     color: #121417;
     cursor: pointer;
+    transform: ${({ changeMenu }) =>
+      changeMenu ? "rotate(180deg)" : "rotate(0deg)"};
   }
 
   .react-select__input-container {
@@ -190,7 +216,7 @@ export const SelectPrice = styled(Select)`
 
     font-size: 16px;
     font-weight: 500;
-    line-height: (20/16);
+    line-height: calc(20 / 16);
     color: rgba(18, 20, 23, 0.2);
 
     border-radius: 14px;
@@ -204,7 +230,7 @@ export const SelectPrice = styled(Select)`
     &::-webkit-scrollbar {
       width: 8px;
       height: 130px;
-      border-radius: 10px;      
+      border-radius: 10px;
       background-color: #fff;
     }
     &::-webkit-scrollbar-thumb {
@@ -218,7 +244,7 @@ export const SelectPrice = styled(Select)`
     width: 125px;
   }
 
-  .react-select__option {    
+  .react-select__option {
     padding-left: 0px;
     background-color: transparent;
     text-overflow: ellipsis;
@@ -238,6 +264,7 @@ export const SelectPrice = styled(Select)`
 `;
 
 export const SelectMileageFrom = styled.input`
+  display: block;
   width: 160px;
   height: 48px;
   padding: 0px 0px 0px 18px;
@@ -247,25 +274,22 @@ export const SelectMileageFrom = styled.input`
   background-color: #f7f7fb !important;
   border-right: 1px solid rgba(138, 138, 137, 0.2);
 
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 500;
-  line-height: (20/16);
-  color: rgba(18, 20, 23, 0.2);
+  line-height: calc(20 / 18);
+  color: #121417;
   outline: none;
   box-shadow: none;
+  cursor: pointer;
 
-  &:: plaseholder {
-    font-size: 18px;
-    font-weight: 500;
-    line-height: calc(20 / 18);
-
+  &::plaseholder {
     color: #121417;
   }
 `;
 
-export const SelectMileageTo = styled.input`  
+export const SelectMileageTo = styled.input`
+  display: block;
   appearance: textfield;
-  display: flex;
   justify-content: center;
   align-items: center;
   width: 160px;
@@ -276,13 +300,14 @@ export const SelectMileageTo = styled.input`
   border-bottom-right-radius: 14px;
   border-top-right-radius: 14px;
   background-color: #f7f7fb !important;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 500;
-  line-height: (20/16);
-  color: rgba(18, 20, 23, 0.2);
+  line-height: calc(20 / 18);
+  color: #121417;
   outline: none;
   box-shadow: none;
- 
+  cursor: pointer;
+
   &:: plaseholder {
     font-size: 18px;
     font-weight: 500;
@@ -299,7 +324,8 @@ export const SelectMileageTo = styled.input`
 
 export const Button = styled.button`
   width: 136px;
-  height: 44px; 
+  height: 48px;
+  margin-top: 26px;
 
   border-radius: 12px;
   background-color: #3470ff;
@@ -314,6 +340,7 @@ export const Button = styled.button`
   font-size: 14px;
   font-weight: 600;
   line-height: calc(20 / 14);
+  cursor: pointer;
 
   &:hover,
   &:focus {
@@ -327,15 +354,15 @@ export const List = styled.ul`
   display: flex;
   flex-wrap: wrap;
   row-gap: 50px;
-  column-gap: 29px;  
+  column-gap: 29px;
   align-items: center;
   padding-left: 0;
-  margin-top: 16px;  
+  margin-top: 16px;
 
-  list-style: none;  
+  list-style: none;
 `;
 
-export const ListItem = styled.li` 
+export const ListItem = styled.li`
   flex-basis: calc((100% - 87px) / 4);
 `;
 

@@ -1,15 +1,18 @@
 import styled from "styled-components";
+import { ReactComponent as DefaultImg } from "../../img/defaultCarsImg.svg";
+
 export const BackDrop = styled.div`
   display: ${({ open }) => (open ? "block" : "none")};
   z-index: 90;
   width: 100vw;
   height: 100vh;
   position: fixed;
-  top: 0;
-  right: 0;
-  background-color: rgba(18, 20, 23, 0.5);  
+
+  right: 0px;
+  background-color: rgba(18, 20, 23, 0.5);
   opacity: 1;
   overflow: hidden !important;
+  top: 0px;
 `;
 export const ModalWindow = styled.div`
   display: none;
@@ -19,21 +22,21 @@ export const ModalWindow = styled.div`
     `
 border-radius: 24px;
 width: 541px;
-  height: 672px;
+height: 672px;
 background: #fff;
 padding:40px;
-    display:flex;
-    flex-direction:column;
-    justify-content: space-between;
-    align-items: start;
-     position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+display:flex;
+flex-direction:column;
+justify-content: space-between;
+align-items: start;
+ position: absolute;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
   `}
 `;
 
-export const CarsBox = styled.div`  
+export const CarsBox = styled.div`
   width: 541px;
   height: 600px;
 `;
@@ -46,9 +49,15 @@ export const CarsImgBox = styled.div`
   overflow: hidden;
 `;
 
-export const CarsImg = styled.img`  
+export const CarsImg = styled.img`
   width: 100%;
-  height: 100%;  
+  height: 100%;
+  object-fit: cover;
+`;
+
+export const DefaultCarsImg = styled(DefaultImg)`
+  width: 100%;
+  height: 100%;
   object-fit: cover;
 `;
 
@@ -73,7 +82,7 @@ export const NameBoxSpan = styled.span`
   color: #3470ff;
 `;
 
-export const RentalConditionsField = styled.div`  
+export const RentalConditionsField = styled.div`
   margin-top: 8px;
   padding: 7px 14px;
   border-radius: 35px;
@@ -113,7 +122,7 @@ export const DescriptionText = styled.p`
 export const SecondLineText = styled.div`
   display: flex;
   align-items: center;
-  
+
   margin-top: 4px;
 
   color: rgba(18, 20, 23, 0.5);
@@ -153,11 +162,13 @@ export const RentalCarButton = styled.a`
   }
 `;
 
-export const CloseBtn = styled.button`  
+export const CloseBtn = styled.button`
   padding: 0;
   position: absolute;
   right: 16px;
+  top: 16px;
   background: none;
   border: none;
-  top: 16px;
+  z-index: 100;
+  fill: #0b44cd;
 `;

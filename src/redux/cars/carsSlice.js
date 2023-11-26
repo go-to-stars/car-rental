@@ -1,27 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getCars, getCarsByID } from "./carsOperations";
-
-// const isPending = (state) => {
-//   state.isLoading = true;
-// }; // функція isPending, змінює значення стейту isLoading на true
-
-// const isRejected = (state, action) => {
-//   state.isLoading = false;
-//   state.error = action.payload;
-// }; // функція isRejected, змінює значення стейту isLoading на false та записує в стейт текст повідомлення об'єкта помилки
+import { getCars } from "./carsOperations";
 
 const carsSlice = createSlice({
   name: "cars_rental",
   initialState: {
-    items: [],
-    item: {},
+    items: [],    
     isLoading: false,
     error: null,
     isFavorites: [],
-  }, // форма стану за замовчуванням
+    page: 1,
+  }, 
   reducers: {
-    addToFavorites(state, action) {
-      // state.items.findIndex((item) => item.id === action.payload.id);
+    addToFavorites(state, action) {      
       state.isFavorites.push(action.payload.id);
     },
     deleteFavorites(state, action) {
@@ -31,12 +21,19 @@ const carsSlice = createSlice({
       );
     },
     setPopUpWindow(state, action) {
-      state.showPopUpWindow = !state.showPopUpWindow;
       state.isPopUpWindow = action.payload.id;
     },
     closePopUpWindow(state, action) {
-      state.showPopUpWindow = !state.showPopUpWindow;
-      state.isPopUpWindow = action.payload.id;
+      state.isPopUpWindow = null;
+    },
+    showPopUpWindow(state) {
+      state.showPopUpWindow = true;
+    },
+    hidePopUpWindow(state) {
+      state.showPopUpWindow = false;
+    },
+    changePage(state, action) {
+      state.page = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -47,23 +44,10 @@ const carsSlice = createSlice({
       })
       .addCase(getCars.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.error = null;
-        state.items = action.payload;
+        state.error = null;       
+        state.items.splice((state.page - 1) * 12, 12, ...action.payload);
       })
       .addCase(getCars.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload;
-      })
-      .addCase(getCarsByID.pending, (state) => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(getCarsByID.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.error = null;
-        state.item = action.payload;
-      })
-      .addCase(getCarsByID.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       });
@@ -73,7 +57,10 @@ const carsSlice = createSlice({
 export const {
   setPopUpWindow,
   closePopUpWindow,
+  showPopUpWindow,
+  hidePopUpWindow,
   addToFavorites,
   deleteFavorites,
+  changePage,
 } = carsSlice.actions;
-export const carsReducer = carsSlice.reducer; // експорт редюсера функції carsSlice
+export const carsReducer = carsSlice.reducer;

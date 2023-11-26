@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { ReactComponent as ButtonFav } from "../../img/buttonFavorites.svg";
-
+import { ReactComponent as DefaultImg } from "../../img/defaultCarsImg.svg";
 export const CarsBox = styled.div`
   position: relative;
   width: 274px;
@@ -15,7 +15,13 @@ export const CarsImgBox = styled.div`
   overflow: hidden;
 `;
 
-export const CarsImg = styled.img` 
+export const CarsImg = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
+
+export const DefaultCarsImg = styled(DefaultImg)`
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -49,17 +55,17 @@ export const NameBoxSpan = styled.span`
   color: #3470ff;
 `;
 
-export const Text = styled.p`  
+export const Text = styled.p`
   margin: 0;
   font-size: 16px;
   font-weight: 500;
-  line-height: calc(24 / 16);  
+  line-height: calc(24 / 16);
   background-color: transparent;
 `;
 
 export const SecondLineText = styled.div`
   display: flex;
-  align-items: center; 
+  align-items: center;
   margin-top: 8px;
   color: rgba(18, 20, 23, 0.5);
   font-size: 12px;
@@ -78,8 +84,8 @@ export const Button = styled.button`
   text-transform: capitalize;
 
   border: 1px solid #3470ff;
- 
-  color: var(--White, #fff);
+
+  color: #fff;
 
   font-size: 14px;
   font-weight: 600;
@@ -90,5 +96,10 @@ export const Button = styled.button`
     background-color: #0b44cd;
     border-color: #0b44cd;
     color: #fff;
+  }
+
+  &:focus-visible {
+    border-color: #3470ff;
+    outline: none;
   }
 `;
